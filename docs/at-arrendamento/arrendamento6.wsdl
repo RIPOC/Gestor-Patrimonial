@@ -1,0 +1,1130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="https://servicos.portaldasfinancas.gov.pt/arrendamento/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://servicos.portaldasfinancas.gov.pt/arrendamento/definitions" targetNamespace="https://servicos.portaldasfinancas.gov.pt/arrendamento/definitions">
+  <wsdl:types>
+    <xs:schema xmlns:arrendamento="https://servicos.portaldasfinancas.gov.pt/arrendamento/schemas" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://servicos.portaldasfinancas.gov.pt/arrendamento/schemas">
+
+    <xs:element name="registarDadosContratoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="1" name="nifDeclarante">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:pattern value="\d{9}"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="referencia">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="tipo">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="ARREND"><xs:annotation><xs:documentation xml:lang="pt">Arrendamento</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="SUBARR"><xs:annotation><xs:documentation xml:lang="pt">Subarrendamento</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="PROMES"><xs:annotation><xs:documentation xml:lang="pt">Promessa arrendamento com entrega do bem locado</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="CEDENC"><xs:annotation><xs:documentation xml:lang="pt">Cedencia de uso do prédio ou de parte dele, que não arrendamento</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="ALUGUE"><xs:annotation><xs:documentation xml:lang="pt">Aluguer de maquinismos e mobiliário instalados no imóvel locado</xs:documentation></xs:annotation></xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="finalidade">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="H_PERM"><xs:annotation><xs:documentation xml:lang="pt">Habitacional (Permanente)</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="H_NPER"><xs:annotation><xs:documentation xml:lang="pt">Habitacional (Não Permanente)</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="N_HABI"><xs:annotation><xs:documentation xml:lang="pt">Não Habitacional</xs:documentation></xs:annotation></xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="dataInicio" type="xs:date"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="dataTermo" type="xs:date"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="renovavel" type="xs:boolean"/>
+				<xs:element maxOccurs="1" minOccurs="1" name="imoveis">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="imovel">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="1" name="distrito">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="2"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="concelho">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="2"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="freguesia">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:length value="2"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="tipo">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="U"><xs:annotation><xs:documentation xml:lang="pt">Urbano</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="R"><xs:annotation><xs:documentation xml:lang="pt">Rústico</xs:documentation></xs:annotation></xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="seccao">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="7"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="artigo">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="7"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="fracao">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="5"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="arvCol">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="3"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="codigoPostal">
+											<xs:simpleType>
+												<xs:restriction base="xs:short">
+													<xs:pattern value="\d{4}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="unidadeFuncional">
+											<xs:simpleType>
+												<xs:restriction base="xs:short">
+													<xs:pattern value="\d{3}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="localidade">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="30"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="morada">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="3000"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="numeroLote">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="andar">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="parteArrendada">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="170"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="parteComum" type="xs:boolean"/>
+										<xs:element maxOccurs="1" minOccurs="0" name="bemOmisso" type="xs:boolean"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element maxOccurs="1" minOccurs="1" name="locadores">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="locador">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="1" name="nif">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="quotaParte">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:pattern value="\d(\d{0,5}/\d{1,6})?"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="regimeCasamento">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="CO_GER"><xs:annotation><xs:documentation xml:lang="pt">Comunhão Geral</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CO_ADQ"><xs:annotation><xs:documentation xml:lang="pt">Comunhão de Adquiridos</xs:documentation></xs:annotation></xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="nifConjuge">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="beneficio">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="BNF001"><xs:annotation><xs:documentation xml:lang="pt">O Estado, as Regiões Autónomas, as autarquias locais e as associações e federações de municípios de direito público, e seus serviços, estabelecimentos e organismos, compreendidos os institutos públicos, que não tenham carácter empresarial</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF002"><xs:annotation><xs:documentation xml:lang="pt">Pessoas colectivas de utilidade pública administrativa e de mera utilidade pública</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF003"><xs:annotation><xs:documentation xml:lang="pt">As instituições particulares de solidariedade social e entidades a estas legalmente equiparadas</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF004"><xs:annotation><xs:documentation xml:lang="pt">As instituições de segurança social</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF005"><xs:annotation><xs:documentation xml:lang="pt">Zona Franca da Madeira e de Santa Maria - Entidades licenciadas nas Zonas ou concessionárias da exploração da Zona</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF006"><xs:annotation><xs:documentation xml:lang="pt">Sociedades de agricultura de grupo</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF007"><xs:annotation><xs:documentation xml:lang="pt">Universidade Católica Portuguesa</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF008"><xs:annotation><xs:documentation xml:lang="pt">Observatório europeu da droga e da toxicodependência</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF009"><xs:annotation><xs:documentation xml:lang="pt">Banco Inter Americano de Desenvolvimento</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF010"><xs:annotation><xs:documentation xml:lang="pt">Programa Polis</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF011"><xs:annotation><xs:documentation xml:lang="pt">Partidos políticos</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF012"><xs:annotation><xs:documentation xml:lang="pt">Código da Insolvência e da Recuperação de Empresas - Transmissões integradas em Planos de insolvência ou de pagamentos ou no âmbito da liquidação da massa insolvente</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF013"><xs:annotation><xs:documentation xml:lang="pt">Instituições de ensino superior público</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF014"><xs:annotation><xs:documentation xml:lang="pt">FIIAH / SIIAH - Artigo 8 - aquisição pelo FIIAH / SIIAH</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF015"><xs:annotation><xs:documentation xml:lang="pt">Cooperativas</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BNF016"><xs:annotation><xs:documentation xml:lang="pt">Arrendamento Rural</xs:documentation></xs:annotation></xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element maxOccurs="1" minOccurs="1" name="locatarios">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="locatario">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="0" name="nif">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="docIdentificacao">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="nomeEstrangeiro">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="170"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="pais">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="AD"><xs:annotation><xs:documentation xml:lang="pt">ANDORRA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AE"><xs:annotation><xs:documentation xml:lang="pt">EMIRATOS ARABES UNIDOS                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AF"><xs:annotation><xs:documentation xml:lang="pt">AFEGANISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AG"><xs:annotation><xs:documentation xml:lang="pt">ANTIGUA E BARBUDA                                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AI"><xs:annotation><xs:documentation xml:lang="pt">ANGUILA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AL"><xs:annotation><xs:documentation xml:lang="pt">ALBANIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AM"><xs:annotation><xs:documentation xml:lang="pt">ARMENIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AN"><xs:annotation><xs:documentation xml:lang="pt">ANTILHAS HOLANDESAS                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AO"><xs:annotation><xs:documentation xml:lang="pt">ANGOLA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AQ"><xs:annotation><xs:documentation xml:lang="pt">ANTARCTICA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AR"><xs:annotation><xs:documentation xml:lang="pt">ARGENTINA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AS"><xs:annotation><xs:documentation xml:lang="pt">SAMOA AMERICANA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AT"><xs:annotation><xs:documentation xml:lang="pt">AUSTRIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AU"><xs:annotation><xs:documentation xml:lang="pt">AUSTRALIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AW"><xs:annotation><xs:documentation xml:lang="pt">ARUBA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AX"><xs:annotation><xs:documentation xml:lang="pt">ALAND ISLANDS                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AZ"><xs:annotation><xs:documentation xml:lang="pt">AZERBAIJAO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BA"><xs:annotation><xs:documentation xml:lang="pt">BOSNIA E HERZEGOVINA                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BB"><xs:annotation><xs:documentation xml:lang="pt">BARBADOS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BD"><xs:annotation><xs:documentation xml:lang="pt">BANGLADESH                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BE"><xs:annotation><xs:documentation xml:lang="pt">BELGICA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BF"><xs:annotation><xs:documentation xml:lang="pt">BURKINA FASO                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BG"><xs:annotation><xs:documentation xml:lang="pt">BULGARIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BH"><xs:annotation><xs:documentation xml:lang="pt">BAREM                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BI"><xs:annotation><xs:documentation xml:lang="pt">BURUNDI                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BJ"><xs:annotation><xs:documentation xml:lang="pt">BENIN                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BL"><xs:annotation><xs:documentation xml:lang="pt">SÃO BARTOLOMEU                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BM"><xs:annotation><xs:documentation xml:lang="pt">BERMUDA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BN"><xs:annotation><xs:documentation xml:lang="pt">BRUNEI DARUSSALAM                                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BO"><xs:annotation><xs:documentation xml:lang="pt">BOLIVIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BQ"><xs:annotation><xs:documentation xml:lang="pt">BONAIRE, SAINT EUSTATIUS E SABA                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BR"><xs:annotation><xs:documentation xml:lang="pt">BRASIL                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BS"><xs:annotation><xs:documentation xml:lang="pt">BAHAMAS                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BT"><xs:annotation><xs:documentation xml:lang="pt">BUTAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BV"><xs:annotation><xs:documentation xml:lang="pt">ILHAS BOUVET                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BW"><xs:annotation><xs:documentation xml:lang="pt">BOTSWANA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BY"><xs:annotation><xs:documentation xml:lang="pt">BIELORRUSSIA                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BZ"><xs:annotation><xs:documentation xml:lang="pt">BELIZE                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CA"><xs:annotation><xs:documentation xml:lang="pt">CANADA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CC"><xs:annotation><xs:documentation xml:lang="pt">ILHAS COCOS O KEELING                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CD"><xs:annotation><xs:documentation xml:lang="pt">CONGO (REPUBLICA DEMOCRATICA DO)                            </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CF"><xs:annotation><xs:documentation xml:lang="pt">CENTRO-AFRICANA (REPUBLICA)                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CG"><xs:annotation><xs:documentation xml:lang="pt">CONGO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CH"><xs:annotation><xs:documentation xml:lang="pt">SUICA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CI"><xs:annotation><xs:documentation xml:lang="pt">COSTA DO MARFIM                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CK"><xs:annotation><xs:documentation xml:lang="pt">ILHAS COOK                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CL"><xs:annotation><xs:documentation xml:lang="pt">CHILE                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CM"><xs:annotation><xs:documentation xml:lang="pt">CAMAROES                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CN"><xs:annotation><xs:documentation xml:lang="pt">CHINA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CO"><xs:annotation><xs:documentation xml:lang="pt">COLOMBIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CR"><xs:annotation><xs:documentation xml:lang="pt">COSTA RICA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CS"><xs:annotation><xs:documentation xml:lang="pt">SERVIA E MONTENEGRO                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CU"><xs:annotation><xs:documentation xml:lang="pt">CUBA                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CV"><xs:annotation><xs:documentation xml:lang="pt">CABO VERDE                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CW"><xs:annotation><xs:documentation xml:lang="pt">CURAÇAO                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CX"><xs:annotation><xs:documentation xml:lang="pt">ILHAS NATAL                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CY"><xs:annotation><xs:documentation xml:lang="pt">CHIPRE                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CZ"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA CHECA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DD"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA DEMOCRATICA ALEMÃ                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DE"><xs:annotation><xs:documentation xml:lang="pt">ALEMANHA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DJ"><xs:annotation><xs:documentation xml:lang="pt">JIBUTI                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DK"><xs:annotation><xs:documentation xml:lang="pt">DINAMARCA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DM"><xs:annotation><xs:documentation xml:lang="pt">DOMINICA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DO"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA DOMINICANA                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DZ"><xs:annotation><xs:documentation xml:lang="pt">ARGELIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EC"><xs:annotation><xs:documentation xml:lang="pt">EQUADOR                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EE"><xs:annotation><xs:documentation xml:lang="pt">ESTONIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EG"><xs:annotation><xs:documentation xml:lang="pt">EGIPTO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EH"><xs:annotation><xs:documentation xml:lang="pt">SARA OCIDENTAL                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ER"><xs:annotation><xs:documentation xml:lang="pt">ERITREIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ES"><xs:annotation><xs:documentation xml:lang="pt">ESPANHA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ET"><xs:annotation><xs:documentation xml:lang="pt">ETIOPIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FI"><xs:annotation><xs:documentation xml:lang="pt">FINLANDIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FJ"><xs:annotation><xs:documentation xml:lang="pt">ILHAS FIJI                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FK"><xs:annotation><xs:documentation xml:lang="pt">ILHAS FALKLAND (MALVINAS)                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FM"><xs:annotation><xs:documentation xml:lang="pt">MICRONESIA (ESTADOS FEDERADOS DA)                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FO"><xs:annotation><xs:documentation xml:lang="pt">ILHAS FAROE                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FR"><xs:annotation><xs:documentation xml:lang="pt">FRANCA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GA"><xs:annotation><xs:documentation xml:lang="pt">GABAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GB"><xs:annotation><xs:documentation xml:lang="pt">REINO UNIDO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GD"><xs:annotation><xs:documentation xml:lang="pt">GRANADA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GE"><xs:annotation><xs:documentation xml:lang="pt">GEORGIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GF"><xs:annotation><xs:documentation xml:lang="pt">GUIANA FRANCESA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GG"><xs:annotation><xs:documentation xml:lang="pt">GUERNSEY                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GH"><xs:annotation><xs:documentation xml:lang="pt">GANA                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GI"><xs:annotation><xs:documentation xml:lang="pt">GIBRALTAR                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GL"><xs:annotation><xs:documentation xml:lang="pt">GRONELANDIA                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GM"><xs:annotation><xs:documentation xml:lang="pt">GAMBIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GN"><xs:annotation><xs:documentation xml:lang="pt">GUINE                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GP"><xs:annotation><xs:documentation xml:lang="pt">GUADALUPE                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GQ"><xs:annotation><xs:documentation xml:lang="pt">GUINE EQUATORIAL                                            </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GR"><xs:annotation><xs:documentation xml:lang="pt">GRECIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GS"><xs:annotation><xs:documentation xml:lang="pt">GEORGIA DO SUL E ILHAS SANDWICH                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GT"><xs:annotation><xs:documentation xml:lang="pt">GUATEMALA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GU"><xs:annotation><xs:documentation xml:lang="pt">GUAM                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GW"><xs:annotation><xs:documentation xml:lang="pt">GUINE-BISSAU                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GY"><xs:annotation><xs:documentation xml:lang="pt">GUIANA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HK"><xs:annotation><xs:documentation xml:lang="pt">HONG KONG                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HM"><xs:annotation><xs:documentation xml:lang="pt">ILHAS HEARD E ILHAS MCDONALD                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HN"><xs:annotation><xs:documentation xml:lang="pt">HONDURAS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HR"><xs:annotation><xs:documentation xml:lang="pt">CROACIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HT"><xs:annotation><xs:documentation xml:lang="pt">HAITI                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HU"><xs:annotation><xs:documentation xml:lang="pt">HUNGRIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ID"><xs:annotation><xs:documentation xml:lang="pt">INDONESIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IE"><xs:annotation><xs:documentation xml:lang="pt">IRLANDA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IL"><xs:annotation><xs:documentation xml:lang="pt">ISRAEL                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IM"><xs:annotation><xs:documentation xml:lang="pt">ILHA DE MAN                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IN"><xs:annotation><xs:documentation xml:lang="pt">INDIA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IO"><xs:annotation><xs:documentation xml:lang="pt">TERRITORIO BRITANICO DO OCEANO INDICO                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IQ"><xs:annotation><xs:documentation xml:lang="pt">IRAQUE                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IR"><xs:annotation><xs:documentation xml:lang="pt">IRAO (REPUBLICA ISLAMICA)                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IS"><xs:annotation><xs:documentation xml:lang="pt">ISLANDIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IT"><xs:annotation><xs:documentation xml:lang="pt">ITALIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JE"><xs:annotation><xs:documentation xml:lang="pt">JERSEY                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JM"><xs:annotation><xs:documentation xml:lang="pt">JAMAICA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JO"><xs:annotation><xs:documentation xml:lang="pt">JORDANIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JP"><xs:annotation><xs:documentation xml:lang="pt">JAPAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KE"><xs:annotation><xs:documentation xml:lang="pt">KENYA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KG"><xs:annotation><xs:documentation xml:lang="pt">QUIRGUIZISTAO                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KH"><xs:annotation><xs:documentation xml:lang="pt">CAMBOJA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KI"><xs:annotation><xs:documentation xml:lang="pt">KIRIBATI                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KM"><xs:annotation><xs:documentation xml:lang="pt">COMORES                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KN"><xs:annotation><xs:documentation xml:lang="pt">SAO CRISTOVAO E NEVIS                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KP"><xs:annotation><xs:documentation xml:lang="pt">COREIA (REPUBLICA POPULAR DEMOCRATICA DA)                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KR"><xs:annotation><xs:documentation xml:lang="pt">COREIA (REPUBLICA DA)                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KW"><xs:annotation><xs:documentation xml:lang="pt">KUWAIT                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KY"><xs:annotation><xs:documentation xml:lang="pt">ILHAS CAIMAO                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KZ"><xs:annotation><xs:documentation xml:lang="pt">CAZAQUISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LA"><xs:annotation><xs:documentation xml:lang="pt">LAOS (REPUBLICA POPULAR DEMOCRATICA DO)                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LB"><xs:annotation><xs:documentation xml:lang="pt">LIBANO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LC"><xs:annotation><xs:documentation xml:lang="pt">SANTA LUCIA                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LI"><xs:annotation><xs:documentation xml:lang="pt">LIECHTENSTEIN                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LK"><xs:annotation><xs:documentation xml:lang="pt">SRI LANKA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LR"><xs:annotation><xs:documentation xml:lang="pt">LIBERIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LS"><xs:annotation><xs:documentation xml:lang="pt">LESOTO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LT"><xs:annotation><xs:documentation xml:lang="pt">LITUANIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LU"><xs:annotation><xs:documentation xml:lang="pt">LUXEMBURGO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LV"><xs:annotation><xs:documentation xml:lang="pt">LETONIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LY"><xs:annotation><xs:documentation xml:lang="pt">LIBIA (JAMAHIRIYA ARABE DA)                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MA"><xs:annotation><xs:documentation xml:lang="pt">MARROCOS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MC"><xs:annotation><xs:documentation xml:lang="pt">MONACO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MD"><xs:annotation><xs:documentation xml:lang="pt">MOLDOVA (REPUBLICA DE)                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ME"><xs:annotation><xs:documentation xml:lang="pt">MONTENEGRO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MG"><xs:annotation><xs:documentation xml:lang="pt">MADAGASCAR                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MH"><xs:annotation><xs:documentation xml:lang="pt">ILHAS MARSHALL                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MK"><xs:annotation><xs:documentation xml:lang="pt">MACEDONIA (ANTIGA REPUBLICA JUGOSLAVA DA)                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ML"><xs:annotation><xs:documentation xml:lang="pt">MALI                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MM"><xs:annotation><xs:documentation xml:lang="pt">MYANMAR                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MN"><xs:annotation><xs:documentation xml:lang="pt">MONGOLIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MO"><xs:annotation><xs:documentation xml:lang="pt">MACAU                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MP"><xs:annotation><xs:documentation xml:lang="pt">ILHAS MARIANAS DO NORTE                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MQ"><xs:annotation><xs:documentation xml:lang="pt">MARTINICA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MR"><xs:annotation><xs:documentation xml:lang="pt">MAURITANIA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MS"><xs:annotation><xs:documentation xml:lang="pt">MONSERRATE                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MT"><xs:annotation><xs:documentation xml:lang="pt">MALTA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MU"><xs:annotation><xs:documentation xml:lang="pt">MAURICIAS                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MV"><xs:annotation><xs:documentation xml:lang="pt">MALDIVAS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MW"><xs:annotation><xs:documentation xml:lang="pt">MALAWI                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MX"><xs:annotation><xs:documentation xml:lang="pt">MEXICO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MY"><xs:annotation><xs:documentation xml:lang="pt">MALASIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MZ"><xs:annotation><xs:documentation xml:lang="pt">MOCAMBIQUE                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NA"><xs:annotation><xs:documentation xml:lang="pt">NAMIBIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NC"><xs:annotation><xs:documentation xml:lang="pt">NOVA CALEDONIA                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NE"><xs:annotation><xs:documentation xml:lang="pt">NIGER                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NF"><xs:annotation><xs:documentation xml:lang="pt">ILHAS NORFOLK                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NG"><xs:annotation><xs:documentation xml:lang="pt">NIGERIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NI"><xs:annotation><xs:documentation xml:lang="pt">NICARAGUA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NL"><xs:annotation><xs:documentation xml:lang="pt">PAISES BAIXOS                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NO"><xs:annotation><xs:documentation xml:lang="pt">NORUEGA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NP"><xs:annotation><xs:documentation xml:lang="pt">NEPAL                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NR"><xs:annotation><xs:documentation xml:lang="pt">NAURU                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NU"><xs:annotation><xs:documentation xml:lang="pt">NIUE                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NZ"><xs:annotation><xs:documentation xml:lang="pt">NOVA ZELANDIA                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="OM"><xs:annotation><xs:documentation xml:lang="pt">OMA                                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PA"><xs:annotation><xs:documentation xml:lang="pt">PANAMA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PE"><xs:annotation><xs:documentation xml:lang="pt">PERU                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PF"><xs:annotation><xs:documentation xml:lang="pt">POLINESIA FRANCESA                                          </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PG"><xs:annotation><xs:documentation xml:lang="pt">PAPUASIA-NOVA GUINE                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PH"><xs:annotation><xs:documentation xml:lang="pt">FILIPINAS                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PK"><xs:annotation><xs:documentation xml:lang="pt">PAQUISTAO                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PL"><xs:annotation><xs:documentation xml:lang="pt">POLONIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PM"><xs:annotation><xs:documentation xml:lang="pt">SAO PEDRO E MIQUELON                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PN"><xs:annotation><xs:documentation xml:lang="pt">PITCAIRN                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PR"><xs:annotation><xs:documentation xml:lang="pt">PORTO RICO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PS"><xs:annotation><xs:documentation xml:lang="pt">TERRITORIO PALESTINIANO OCUPADO                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PT"><xs:annotation><xs:documentation xml:lang="pt">PORTUGAL                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PW"><xs:annotation><xs:documentation xml:lang="pt">PALAU                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PY"><xs:annotation><xs:documentation xml:lang="pt">PARAGUAI                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="QA"><xs:annotation><xs:documentation xml:lang="pt">CATAR                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RE"><xs:annotation><xs:documentation xml:lang="pt">REUNIAO                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RO"><xs:annotation><xs:documentation xml:lang="pt">ROMENIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RS"><xs:annotation><xs:documentation xml:lang="pt">SERVIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RU"><xs:annotation><xs:documentation xml:lang="pt">RUSSIA (FEDERACAO DA)                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RW"><xs:annotation><xs:documentation xml:lang="pt">RUANDA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SA"><xs:annotation><xs:documentation xml:lang="pt">ARABIA SAUDITA                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SB"><xs:annotation><xs:documentation xml:lang="pt">ILHAS SALOMAO                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SC"><xs:annotation><xs:documentation xml:lang="pt">SEYCHELLES                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SD"><xs:annotation><xs:documentation xml:lang="pt">SUDAN                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SD"><xs:annotation><xs:documentation xml:lang="pt">SUDAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SE"><xs:annotation><xs:documentation xml:lang="pt">SUECIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SG"><xs:annotation><xs:documentation xml:lang="pt">SINGAPURA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SH"><xs:annotation><xs:documentation xml:lang="pt">SANTA HELENA                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SI"><xs:annotation><xs:documentation xml:lang="pt">ESLOVENIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SJ"><xs:annotation><xs:documentation xml:lang="pt">SVALBARD E A ILHA DE JAN MAYEN                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SK"><xs:annotation><xs:documentation xml:lang="pt">ESLOVACA (REPUBLICA)                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SL"><xs:annotation><xs:documentation xml:lang="pt">SERRA LEOA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SM"><xs:annotation><xs:documentation xml:lang="pt">SAO MARINO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SN"><xs:annotation><xs:documentation xml:lang="pt">SENEGAL                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SO"><xs:annotation><xs:documentation xml:lang="pt">SOMALIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SR"><xs:annotation><xs:documentation xml:lang="pt">SURINAME                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SS"><xs:annotation><xs:documentation xml:lang="pt">SOUTH SUDAN                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ST"><xs:annotation><xs:documentation xml:lang="pt">SAO TOME E PRINCIPE                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SU"><xs:annotation><xs:documentation xml:lang="pt">UNIÃO SOVIETICA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SV"><xs:annotation><xs:documentation xml:lang="pt">EL SALVADOR                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SX"><xs:annotation><xs:documentation xml:lang="pt">SINT MAARTEN                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SY"><xs:annotation><xs:documentation xml:lang="pt">SIRIA (REPUBLICA ARABE DA)                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SZ"><xs:annotation><xs:documentation xml:lang="pt">SUAZILANDIA                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TC"><xs:annotation><xs:documentation xml:lang="pt">TURCOS E CAICOS (ILHAS)                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TD"><xs:annotation><xs:documentation xml:lang="pt">CHADE                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TF"><xs:annotation><xs:documentation xml:lang="pt">TERRITORIOS FRANCESES DO SUL                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TG"><xs:annotation><xs:documentation xml:lang="pt">TOGO                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TH"><xs:annotation><xs:documentation xml:lang="pt">TAILANDIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TJ"><xs:annotation><xs:documentation xml:lang="pt">TAJIQUISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TK"><xs:annotation><xs:documentation xml:lang="pt">TOKELAU                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TL"><xs:annotation><xs:documentation xml:lang="pt">TIMOR LESTE                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TM"><xs:annotation><xs:documentation xml:lang="pt">TURQUEMENISTAO                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TN"><xs:annotation><xs:documentation xml:lang="pt">TUNISIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TO"><xs:annotation><xs:documentation xml:lang="pt">TONGA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TR"><xs:annotation><xs:documentation xml:lang="pt">TURQUIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TT"><xs:annotation><xs:documentation xml:lang="pt">TRINDADE E TOBAGO                                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TV"><xs:annotation><xs:documentation xml:lang="pt">TUVALU                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TW"><xs:annotation><xs:documentation xml:lang="pt">TAIWAN                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TZ"><xs:annotation><xs:documentation xml:lang="pt">TANZANIA, REPUBLICA UNIDA DA                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UA"><xs:annotation><xs:documentation xml:lang="pt">UCRANIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UG"><xs:annotation><xs:documentation xml:lang="pt">UGANDA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UM"><xs:annotation><xs:documentation xml:lang="pt">ILHAS MENORES DISTANTES DOS ESTADOS UNIDOS                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="US"><xs:annotation><xs:documentation xml:lang="pt">ESTADOS UNIDOS                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UY"><xs:annotation><xs:documentation xml:lang="pt">URUGUAI                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UZ"><xs:annotation><xs:documentation xml:lang="pt">USBEQUISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VA"><xs:annotation><xs:documentation xml:lang="pt">SANTA SE (CIDADE ESTADO DO VATICANO)                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VC"><xs:annotation><xs:documentation xml:lang="pt">SAO VICENTE E GRANADINAS                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VE"><xs:annotation><xs:documentation xml:lang="pt">VENEZUELA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VG"><xs:annotation><xs:documentation xml:lang="pt">ILHAS VIRGENS (BRITANICAS)                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VI"><xs:annotation><xs:documentation xml:lang="pt">ILHAS VIRGENS (ESTADOS UNIDOS)                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VN"><xs:annotation><xs:documentation xml:lang="pt">VIETNAME                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VU"><xs:annotation><xs:documentation xml:lang="pt">VANUATU                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="WF"><xs:annotation><xs:documentation xml:lang="pt">WALLIS E FUTUNA (ILHAS)                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="WS"><xs:annotation><xs:documentation xml:lang="pt">SAMOA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="XA"><xs:annotation><xs:documentation xml:lang="pt">OLIVENÇA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="XG"><xs:annotation><xs:documentation xml:lang="pt">ALDERNEY                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="XK"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA DO KOSOVO                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="YE"><xs:annotation><xs:documentation xml:lang="pt">IEMEN                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="YT"><xs:annotation><xs:documentation xml:lang="pt">MAYOTTE                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="YU"><xs:annotation><xs:documentation xml:lang="pt">JUGOSLÁVIA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ZA"><xs:annotation><xs:documentation xml:lang="pt">AFRICA DO SUL                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ZM"><xs:annotation><xs:documentation xml:lang="pt">ZAMBIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ZW"><xs:annotation><xs:documentation xml:lang="pt">ZIMBABWE                                                    </xs:documentation></xs:annotation></xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="retencaoFonte">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="RIRS01"><xs:annotation><xs:documentation xml:lang="pt">À taxa de 25% - artigo 101.º, n.º 1, al. e) do CIRS</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RIRS02"><xs:annotation><xs:documentation xml:lang="pt">À taxa de 20% (Açores DLR n.º 2/99/A, de 20/01, se entre 1-01-2014 e 31-12-2021)</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RIRS03"><xs:annotation><xs:documentation xml:lang="pt">Dispensa de retenção - artigo 101.º-B, n.º 1, do CIRS</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RIRS04"><xs:annotation><xs:documentation xml:lang="pt">Sem retenção - artigo 101.º, n.º 1, do CIRS</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RIRS05"><xs:annotation><xs:documentation xml:lang="pt">À taxa de 17,5% (Açores DLR n.º 15-A/2021/A, 31/05, a partir de 1-01-2022)</xs:documentation></xs:annotation></xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="valorRenda" type="xs:decimal"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="valorDespesas" type="xs:decimal"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="valorRendaMaxima" type="xs:decimal"/>
+                <xs:element maxOccurs="1" minOccurs="1" name="periodoRenda">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="MENSAL"><xs:annotation><xs:documentation xml:lang="pt">Mensal</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="MENORM"><xs:annotation><xs:documentation xml:lang="pt">Inferior a um mês</xs:documentation></xs:annotation></xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element minOccurs="0" name="locadoresPrevios">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="locadorPrevio">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="1" name="nif">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="0" name="observacoes">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="3000"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="0" name="nifAutorizado">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:pattern value="\d{9}"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="registarDadosContratoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="1" name="codigo" type="xs:short"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="mensagem" type="xs:string"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="numeroContrato" type="xs:long"/>
+				<xs:element maxOccurs="1" minOccurs="0" name="erros">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="erro">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="0" name="campo" type="xs:string"/>
+										<xs:element maxOccurs="1" minOccurs="1" name="mensagem" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="emitirReciboRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="1" name="numeroContrato" type="xs:long"/>
+				<xs:element maxOccurs="1" minOccurs="0" name="versaoContrato" type="xs:long"/>
+				<xs:element maxOccurs="1" minOccurs="1" name="nifEmitente">
+					<xs:simpleType>
+						<xs:restriction base="xs:int">
+							<xs:pattern value="\d{9}"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element maxOccurs="1" minOccurs="1" name="locadores">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="locador">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="1" name="nif">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element maxOccurs="1" minOccurs="1" name="locatarios">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="locatario">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="0" name="nif">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="docIdentificacao">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="pais">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="AD"><xs:annotation><xs:documentation xml:lang="pt">ANDORRA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AE"><xs:annotation><xs:documentation xml:lang="pt">EMIRATOS ARABES UNIDOS                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AF"><xs:annotation><xs:documentation xml:lang="pt">AFEGANISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AG"><xs:annotation><xs:documentation xml:lang="pt">ANTIGUA E BARBUDA                                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AI"><xs:annotation><xs:documentation xml:lang="pt">ANGUILA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AL"><xs:annotation><xs:documentation xml:lang="pt">ALBANIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AM"><xs:annotation><xs:documentation xml:lang="pt">ARMENIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AN"><xs:annotation><xs:documentation xml:lang="pt">ANTILHAS HOLANDESAS                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AO"><xs:annotation><xs:documentation xml:lang="pt">ANGOLA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AQ"><xs:annotation><xs:documentation xml:lang="pt">ANTARCTICA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AR"><xs:annotation><xs:documentation xml:lang="pt">ARGENTINA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AS"><xs:annotation><xs:documentation xml:lang="pt">SAMOA AMERICANA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AT"><xs:annotation><xs:documentation xml:lang="pt">AUSTRIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AU"><xs:annotation><xs:documentation xml:lang="pt">AUSTRALIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AW"><xs:annotation><xs:documentation xml:lang="pt">ARUBA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AX"><xs:annotation><xs:documentation xml:lang="pt">ALAND ISLANDS                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="AZ"><xs:annotation><xs:documentation xml:lang="pt">AZERBAIJAO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BA"><xs:annotation><xs:documentation xml:lang="pt">BOSNIA E HERZEGOVINA                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BB"><xs:annotation><xs:documentation xml:lang="pt">BARBADOS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BD"><xs:annotation><xs:documentation xml:lang="pt">BANGLADESH                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BE"><xs:annotation><xs:documentation xml:lang="pt">BELGICA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BF"><xs:annotation><xs:documentation xml:lang="pt">BURKINA FASO                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BG"><xs:annotation><xs:documentation xml:lang="pt">BULGARIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BH"><xs:annotation><xs:documentation xml:lang="pt">BAREM                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BI"><xs:annotation><xs:documentation xml:lang="pt">BURUNDI                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BJ"><xs:annotation><xs:documentation xml:lang="pt">BENIN                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BL"><xs:annotation><xs:documentation xml:lang="pt">SÃO BARTOLOMEU                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BM"><xs:annotation><xs:documentation xml:lang="pt">BERMUDA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BN"><xs:annotation><xs:documentation xml:lang="pt">BRUNEI DARUSSALAM                                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BO"><xs:annotation><xs:documentation xml:lang="pt">BOLIVIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BQ"><xs:annotation><xs:documentation xml:lang="pt">BONAIRE, SAINT EUSTATIUS E SABA                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BR"><xs:annotation><xs:documentation xml:lang="pt">BRASIL                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BS"><xs:annotation><xs:documentation xml:lang="pt">BAHAMAS                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BT"><xs:annotation><xs:documentation xml:lang="pt">BUTAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BV"><xs:annotation><xs:documentation xml:lang="pt">ILHAS BOUVET                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BW"><xs:annotation><xs:documentation xml:lang="pt">BOTSWANA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BY"><xs:annotation><xs:documentation xml:lang="pt">BIELORRUSSIA                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="BZ"><xs:annotation><xs:documentation xml:lang="pt">BELIZE                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CA"><xs:annotation><xs:documentation xml:lang="pt">CANADA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CC"><xs:annotation><xs:documentation xml:lang="pt">ILHAS COCOS O KEELING                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CD"><xs:annotation><xs:documentation xml:lang="pt">CONGO (REPUBLICA DEMOCRATICA DO)                            </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CF"><xs:annotation><xs:documentation xml:lang="pt">CENTRO-AFRICANA (REPUBLICA)                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CG"><xs:annotation><xs:documentation xml:lang="pt">CONGO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CH"><xs:annotation><xs:documentation xml:lang="pt">SUICA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CI"><xs:annotation><xs:documentation xml:lang="pt">COSTA DO MARFIM                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CK"><xs:annotation><xs:documentation xml:lang="pt">ILHAS COOK                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CL"><xs:annotation><xs:documentation xml:lang="pt">CHILE                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CM"><xs:annotation><xs:documentation xml:lang="pt">CAMAROES                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CN"><xs:annotation><xs:documentation xml:lang="pt">CHINA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CO"><xs:annotation><xs:documentation xml:lang="pt">COLOMBIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CR"><xs:annotation><xs:documentation xml:lang="pt">COSTA RICA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CS"><xs:annotation><xs:documentation xml:lang="pt">SERVIA E MONTENEGRO                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CU"><xs:annotation><xs:documentation xml:lang="pt">CUBA                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CV"><xs:annotation><xs:documentation xml:lang="pt">CABO VERDE                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CW"><xs:annotation><xs:documentation xml:lang="pt">CURAÇAO                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CX"><xs:annotation><xs:documentation xml:lang="pt">ILHAS NATAL                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CY"><xs:annotation><xs:documentation xml:lang="pt">CHIPRE                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="CZ"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA CHECA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DD"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA DEMOCRATICA ALEMÃ                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DE"><xs:annotation><xs:documentation xml:lang="pt">ALEMANHA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DJ"><xs:annotation><xs:documentation xml:lang="pt">JIBUTI                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DK"><xs:annotation><xs:documentation xml:lang="pt">DINAMARCA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DM"><xs:annotation><xs:documentation xml:lang="pt">DOMINICA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DO"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA DOMINICANA                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="DZ"><xs:annotation><xs:documentation xml:lang="pt">ARGELIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EC"><xs:annotation><xs:documentation xml:lang="pt">EQUADOR                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EE"><xs:annotation><xs:documentation xml:lang="pt">ESTONIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EG"><xs:annotation><xs:documentation xml:lang="pt">EGIPTO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="EH"><xs:annotation><xs:documentation xml:lang="pt">SARA OCIDENTAL                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ER"><xs:annotation><xs:documentation xml:lang="pt">ERITREIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ES"><xs:annotation><xs:documentation xml:lang="pt">ESPANHA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ET"><xs:annotation><xs:documentation xml:lang="pt">ETIOPIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FI"><xs:annotation><xs:documentation xml:lang="pt">FINLANDIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FJ"><xs:annotation><xs:documentation xml:lang="pt">ILHAS FIJI                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FK"><xs:annotation><xs:documentation xml:lang="pt">ILHAS FALKLAND (MALVINAS)                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FM"><xs:annotation><xs:documentation xml:lang="pt">MICRONESIA (ESTADOS FEDERADOS DA)                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FO"><xs:annotation><xs:documentation xml:lang="pt">ILHAS FAROE                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="FR"><xs:annotation><xs:documentation xml:lang="pt">FRANCA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GA"><xs:annotation><xs:documentation xml:lang="pt">GABAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GB"><xs:annotation><xs:documentation xml:lang="pt">REINO UNIDO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GD"><xs:annotation><xs:documentation xml:lang="pt">GRANADA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GE"><xs:annotation><xs:documentation xml:lang="pt">GEORGIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GF"><xs:annotation><xs:documentation xml:lang="pt">GUIANA FRANCESA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GG"><xs:annotation><xs:documentation xml:lang="pt">GUERNSEY                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GH"><xs:annotation><xs:documentation xml:lang="pt">GANA                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GI"><xs:annotation><xs:documentation xml:lang="pt">GIBRALTAR                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GL"><xs:annotation><xs:documentation xml:lang="pt">GRONELANDIA                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GM"><xs:annotation><xs:documentation xml:lang="pt">GAMBIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GN"><xs:annotation><xs:documentation xml:lang="pt">GUINE                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GP"><xs:annotation><xs:documentation xml:lang="pt">GUADALUPE                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GQ"><xs:annotation><xs:documentation xml:lang="pt">GUINE EQUATORIAL                                            </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GR"><xs:annotation><xs:documentation xml:lang="pt">GRECIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GS"><xs:annotation><xs:documentation xml:lang="pt">GEORGIA DO SUL E ILHAS SANDWICH                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GT"><xs:annotation><xs:documentation xml:lang="pt">GUATEMALA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GU"><xs:annotation><xs:documentation xml:lang="pt">GUAM                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GW"><xs:annotation><xs:documentation xml:lang="pt">GUINE-BISSAU                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="GY"><xs:annotation><xs:documentation xml:lang="pt">GUIANA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HK"><xs:annotation><xs:documentation xml:lang="pt">HONG KONG                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HM"><xs:annotation><xs:documentation xml:lang="pt">ILHAS HEARD E ILHAS MCDONALD                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HN"><xs:annotation><xs:documentation xml:lang="pt">HONDURAS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HR"><xs:annotation><xs:documentation xml:lang="pt">CROACIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HT"><xs:annotation><xs:documentation xml:lang="pt">HAITI                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="HU"><xs:annotation><xs:documentation xml:lang="pt">HUNGRIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ID"><xs:annotation><xs:documentation xml:lang="pt">INDONESIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IE"><xs:annotation><xs:documentation xml:lang="pt">IRLANDA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IL"><xs:annotation><xs:documentation xml:lang="pt">ISRAEL                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IM"><xs:annotation><xs:documentation xml:lang="pt">ILHA DE MAN                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IN"><xs:annotation><xs:documentation xml:lang="pt">INDIA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IO"><xs:annotation><xs:documentation xml:lang="pt">TERRITORIO BRITANICO DO OCEANO INDICO                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IQ"><xs:annotation><xs:documentation xml:lang="pt">IRAQUE                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IR"><xs:annotation><xs:documentation xml:lang="pt">IRAO (REPUBLICA ISLAMICA)                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IS"><xs:annotation><xs:documentation xml:lang="pt">ISLANDIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="IT"><xs:annotation><xs:documentation xml:lang="pt">ITALIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JE"><xs:annotation><xs:documentation xml:lang="pt">JERSEY                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JM"><xs:annotation><xs:documentation xml:lang="pt">JAMAICA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JO"><xs:annotation><xs:documentation xml:lang="pt">JORDANIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="JP"><xs:annotation><xs:documentation xml:lang="pt">JAPAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KE"><xs:annotation><xs:documentation xml:lang="pt">KENYA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KG"><xs:annotation><xs:documentation xml:lang="pt">QUIRGUIZISTAO                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KH"><xs:annotation><xs:documentation xml:lang="pt">CAMBOJA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KI"><xs:annotation><xs:documentation xml:lang="pt">KIRIBATI                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KM"><xs:annotation><xs:documentation xml:lang="pt">COMORES                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KN"><xs:annotation><xs:documentation xml:lang="pt">SAO CRISTOVAO E NEVIS                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KP"><xs:annotation><xs:documentation xml:lang="pt">COREIA (REPUBLICA POPULAR DEMOCRATICA DA)                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KR"><xs:annotation><xs:documentation xml:lang="pt">COREIA (REPUBLICA DA)                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KW"><xs:annotation><xs:documentation xml:lang="pt">KUWAIT                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KY"><xs:annotation><xs:documentation xml:lang="pt">ILHAS CAIMAO                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="KZ"><xs:annotation><xs:documentation xml:lang="pt">CAZAQUISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LA"><xs:annotation><xs:documentation xml:lang="pt">LAOS (REPUBLICA POPULAR DEMOCRATICA DO)                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LB"><xs:annotation><xs:documentation xml:lang="pt">LIBANO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LC"><xs:annotation><xs:documentation xml:lang="pt">SANTA LUCIA                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LI"><xs:annotation><xs:documentation xml:lang="pt">LIECHTENSTEIN                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LK"><xs:annotation><xs:documentation xml:lang="pt">SRI LANKA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LR"><xs:annotation><xs:documentation xml:lang="pt">LIBERIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LS"><xs:annotation><xs:documentation xml:lang="pt">LESOTO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LT"><xs:annotation><xs:documentation xml:lang="pt">LITUANIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LU"><xs:annotation><xs:documentation xml:lang="pt">LUXEMBURGO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LV"><xs:annotation><xs:documentation xml:lang="pt">LETONIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="LY"><xs:annotation><xs:documentation xml:lang="pt">LIBIA (JAMAHIRIYA ARABE DA)                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MA"><xs:annotation><xs:documentation xml:lang="pt">MARROCOS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MC"><xs:annotation><xs:documentation xml:lang="pt">MONACO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MD"><xs:annotation><xs:documentation xml:lang="pt">MOLDOVA (REPUBLICA DE)                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ME"><xs:annotation><xs:documentation xml:lang="pt">MONTENEGRO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MG"><xs:annotation><xs:documentation xml:lang="pt">MADAGASCAR                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MH"><xs:annotation><xs:documentation xml:lang="pt">ILHAS MARSHALL                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MK"><xs:annotation><xs:documentation xml:lang="pt">MACEDONIA (ANTIGA REPUBLICA JUGOSLAVA DA)                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ML"><xs:annotation><xs:documentation xml:lang="pt">MALI                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MM"><xs:annotation><xs:documentation xml:lang="pt">MYANMAR                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MN"><xs:annotation><xs:documentation xml:lang="pt">MONGOLIA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MO"><xs:annotation><xs:documentation xml:lang="pt">MACAU                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MP"><xs:annotation><xs:documentation xml:lang="pt">ILHAS MARIANAS DO NORTE                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MQ"><xs:annotation><xs:documentation xml:lang="pt">MARTINICA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MR"><xs:annotation><xs:documentation xml:lang="pt">MAURITANIA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MS"><xs:annotation><xs:documentation xml:lang="pt">MONSERRATE                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MT"><xs:annotation><xs:documentation xml:lang="pt">MALTA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MU"><xs:annotation><xs:documentation xml:lang="pt">MAURICIAS                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MV"><xs:annotation><xs:documentation xml:lang="pt">MALDIVAS                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MW"><xs:annotation><xs:documentation xml:lang="pt">MALAWI                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MX"><xs:annotation><xs:documentation xml:lang="pt">MEXICO                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MY"><xs:annotation><xs:documentation xml:lang="pt">MALASIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="MZ"><xs:annotation><xs:documentation xml:lang="pt">MOCAMBIQUE                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NA"><xs:annotation><xs:documentation xml:lang="pt">NAMIBIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NC"><xs:annotation><xs:documentation xml:lang="pt">NOVA CALEDONIA                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NE"><xs:annotation><xs:documentation xml:lang="pt">NIGER                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NF"><xs:annotation><xs:documentation xml:lang="pt">ILHAS NORFOLK                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NG"><xs:annotation><xs:documentation xml:lang="pt">NIGERIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NI"><xs:annotation><xs:documentation xml:lang="pt">NICARAGUA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NL"><xs:annotation><xs:documentation xml:lang="pt">PAISES BAIXOS                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NO"><xs:annotation><xs:documentation xml:lang="pt">NORUEGA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NP"><xs:annotation><xs:documentation xml:lang="pt">NEPAL                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NR"><xs:annotation><xs:documentation xml:lang="pt">NAURU                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NU"><xs:annotation><xs:documentation xml:lang="pt">NIUE                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="NZ"><xs:annotation><xs:documentation xml:lang="pt">NOVA ZELANDIA                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="OM"><xs:annotation><xs:documentation xml:lang="pt">OMA                                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PA"><xs:annotation><xs:documentation xml:lang="pt">PANAMA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PE"><xs:annotation><xs:documentation xml:lang="pt">PERU                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PF"><xs:annotation><xs:documentation xml:lang="pt">POLINESIA FRANCESA                                          </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PG"><xs:annotation><xs:documentation xml:lang="pt">PAPUASIA-NOVA GUINE                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PH"><xs:annotation><xs:documentation xml:lang="pt">FILIPINAS                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PK"><xs:annotation><xs:documentation xml:lang="pt">PAQUISTAO                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PL"><xs:annotation><xs:documentation xml:lang="pt">POLONIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PM"><xs:annotation><xs:documentation xml:lang="pt">SAO PEDRO E MIQUELON                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PN"><xs:annotation><xs:documentation xml:lang="pt">PITCAIRN                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PR"><xs:annotation><xs:documentation xml:lang="pt">PORTO RICO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PS"><xs:annotation><xs:documentation xml:lang="pt">TERRITORIO PALESTINIANO OCUPADO                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PT"><xs:annotation><xs:documentation xml:lang="pt">PORTUGAL                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PW"><xs:annotation><xs:documentation xml:lang="pt">PALAU                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="PY"><xs:annotation><xs:documentation xml:lang="pt">PARAGUAI                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="QA"><xs:annotation><xs:documentation xml:lang="pt">CATAR                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RE"><xs:annotation><xs:documentation xml:lang="pt">REUNIAO                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RO"><xs:annotation><xs:documentation xml:lang="pt">ROMENIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RS"><xs:annotation><xs:documentation xml:lang="pt">SERVIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RU"><xs:annotation><xs:documentation xml:lang="pt">RUSSIA (FEDERACAO DA)                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RW"><xs:annotation><xs:documentation xml:lang="pt">RUANDA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SA"><xs:annotation><xs:documentation xml:lang="pt">ARABIA SAUDITA                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SB"><xs:annotation><xs:documentation xml:lang="pt">ILHAS SALOMAO                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SC"><xs:annotation><xs:documentation xml:lang="pt">SEYCHELLES                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SD"><xs:annotation><xs:documentation xml:lang="pt">SUDAN                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SD"><xs:annotation><xs:documentation xml:lang="pt">SUDAO                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SE"><xs:annotation><xs:documentation xml:lang="pt">SUECIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SG"><xs:annotation><xs:documentation xml:lang="pt">SINGAPURA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SH"><xs:annotation><xs:documentation xml:lang="pt">SANTA HELENA                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SI"><xs:annotation><xs:documentation xml:lang="pt">ESLOVENIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SJ"><xs:annotation><xs:documentation xml:lang="pt">SVALBARD E A ILHA DE JAN MAYEN                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SK"><xs:annotation><xs:documentation xml:lang="pt">ESLOVACA (REPUBLICA)                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SL"><xs:annotation><xs:documentation xml:lang="pt">SERRA LEOA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SM"><xs:annotation><xs:documentation xml:lang="pt">SAO MARINO                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SN"><xs:annotation><xs:documentation xml:lang="pt">SENEGAL                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SO"><xs:annotation><xs:documentation xml:lang="pt">SOMALIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SR"><xs:annotation><xs:documentation xml:lang="pt">SURINAME                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SS"><xs:annotation><xs:documentation xml:lang="pt">SOUTH SUDAN                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ST"><xs:annotation><xs:documentation xml:lang="pt">SAO TOME E PRINCIPE                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SU"><xs:annotation><xs:documentation xml:lang="pt">UNIÃO SOVIETICA                                             </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SV"><xs:annotation><xs:documentation xml:lang="pt">EL SALVADOR                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SX"><xs:annotation><xs:documentation xml:lang="pt">SINT MAARTEN                                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SY"><xs:annotation><xs:documentation xml:lang="pt">SIRIA (REPUBLICA ARABE DA)                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="SZ"><xs:annotation><xs:documentation xml:lang="pt">SUAZILANDIA                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TC"><xs:annotation><xs:documentation xml:lang="pt">TURCOS E CAICOS (ILHAS)                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TD"><xs:annotation><xs:documentation xml:lang="pt">CHADE                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TF"><xs:annotation><xs:documentation xml:lang="pt">TERRITORIOS FRANCESES DO SUL                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TG"><xs:annotation><xs:documentation xml:lang="pt">TOGO                                                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TH"><xs:annotation><xs:documentation xml:lang="pt">TAILANDIA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TJ"><xs:annotation><xs:documentation xml:lang="pt">TAJIQUISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TK"><xs:annotation><xs:documentation xml:lang="pt">TOKELAU                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TL"><xs:annotation><xs:documentation xml:lang="pt">TIMOR LESTE                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TM"><xs:annotation><xs:documentation xml:lang="pt">TURQUEMENISTAO                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TN"><xs:annotation><xs:documentation xml:lang="pt">TUNISIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TO"><xs:annotation><xs:documentation xml:lang="pt">TONGA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TR"><xs:annotation><xs:documentation xml:lang="pt">TURQUIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TT"><xs:annotation><xs:documentation xml:lang="pt">TRINDADE E TOBAGO                                           </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TV"><xs:annotation><xs:documentation xml:lang="pt">TUVALU                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TW"><xs:annotation><xs:documentation xml:lang="pt">TAIWAN                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="TZ"><xs:annotation><xs:documentation xml:lang="pt">TANZANIA, REPUBLICA UNIDA DA                                </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UA"><xs:annotation><xs:documentation xml:lang="pt">UCRANIA                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UG"><xs:annotation><xs:documentation xml:lang="pt">UGANDA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UM"><xs:annotation><xs:documentation xml:lang="pt">ILHAS MENORES DISTANTES DOS ESTADOS UNIDOS                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="US"><xs:annotation><xs:documentation xml:lang="pt">ESTADOS UNIDOS                                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UY"><xs:annotation><xs:documentation xml:lang="pt">URUGUAI                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="UZ"><xs:annotation><xs:documentation xml:lang="pt">USBEQUISTAO                                                 </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VA"><xs:annotation><xs:documentation xml:lang="pt">SANTA SE (CIDADE ESTADO DO VATICANO)                        </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VC"><xs:annotation><xs:documentation xml:lang="pt">SAO VICENTE E GRANADINAS                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VE"><xs:annotation><xs:documentation xml:lang="pt">VENEZUELA                                                   </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VG"><xs:annotation><xs:documentation xml:lang="pt">ILHAS VIRGENS (BRITANICAS)                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VI"><xs:annotation><xs:documentation xml:lang="pt">ILHAS VIRGENS (ESTADOS UNIDOS)                              </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VN"><xs:annotation><xs:documentation xml:lang="pt">VIETNAME                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="VU"><xs:annotation><xs:documentation xml:lang="pt">VANUATU                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="WF"><xs:annotation><xs:documentation xml:lang="pt">WALLIS E FUTUNA (ILHAS)                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="WS"><xs:annotation><xs:documentation xml:lang="pt">SAMOA                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="XA"><xs:annotation><xs:documentation xml:lang="pt">OLIVENÇA                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="XG"><xs:annotation><xs:documentation xml:lang="pt">ALDERNEY                                                    </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="XK"><xs:annotation><xs:documentation xml:lang="pt">REPUBLICA DO KOSOVO                                         </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="YE"><xs:annotation><xs:documentation xml:lang="pt">IEMEN                                                       </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="YT"><xs:annotation><xs:documentation xml:lang="pt">MAYOTTE                                                     </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="YU"><xs:annotation><xs:documentation xml:lang="pt">JUGOSLÁVIA                                                  </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ZA"><xs:annotation><xs:documentation xml:lang="pt">AFRICA DO SUL                                               </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ZM"><xs:annotation><xs:documentation xml:lang="pt">ZAMBIA                                                      </xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="ZW"><xs:annotation><xs:documentation xml:lang="pt">ZIMBABWE                                                    </xs:documentation></xs:annotation></xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="0" name="retencaoFonte">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="RIRS01"><xs:annotation><xs:documentation xml:lang="pt">À taxa de 25% - artigo 101.º, n.º 1, al. e) do CIRS</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RIRS02"><xs:annotation><xs:documentation xml:lang="pt">À taxa de 20% (Açores DLR n.º 2/99/A, de 20/01, após 1-01-2014)</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RIRS03"><xs:annotation><xs:documentation xml:lang="pt">Dispensa de retenção - artigo 101.º-B, n.º 1, do CIRS</xs:documentation></xs:annotation></xs:enumeration>
+													<xs:enumeration value="RIRS04"><xs:annotation><xs:documentation xml:lang="pt">Sem retenção - artigo 101.º, n.º 1, do CIRS</xs:documentation></xs:annotation></xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element maxOccurs="1" minOccurs="1" name="tipo">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="ARREND"><xs:annotation><xs:documentation xml:lang="pt">Arrendamento</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="SUBARR"><xs:annotation><xs:documentation xml:lang="pt">Subarrendamento</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="CEDENC"><xs:annotation><xs:documentation xml:lang="pt">Cedencia de uso do prédio ou de parte dele, que não arrendamento</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="ALUGUE"><xs:annotation><xs:documentation xml:lang="pt">Aluguer de maquinismos e mobiliário instalados no imóvel locado</xs:documentation></xs:annotation></xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="dataInicio" type="xs:date"/>
+                <xs:element maxOccurs="1" minOccurs="1" name="dataFim" type="xs:date"/>
+                <xs:element maxOccurs="1" minOccurs="1" name="tipoImportancia">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="RENDAC"><xs:annotation><xs:documentation xml:lang="pt">Renda</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="CAUCAO"><xs:annotation><xs:documentation xml:lang="pt">Caução</xs:documentation></xs:annotation></xs:enumeration>
+							<xs:enumeration value="ADIANT"><xs:annotation><xs:documentation xml:lang="pt">Adiantamento</xs:documentation></xs:annotation></xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="valor" type="xs:decimal"/>
+				<xs:element maxOccurs="1" minOccurs="0" name="herdeiros">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="herdeiro">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="1" name="nif">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="quotaParte">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:pattern value="\d(\d{0,5}/\d{1,6})?"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element maxOccurs="1" minOccurs="1" name="nifHeranca">
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:pattern value="\d{9}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element maxOccurs="1" minOccurs="1" name="dataRecebimento" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="emitirReciboResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="1" name="codigo" type="xs:short"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="mensagem" type="xs:string"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="numeroRecibo" type="xs:long"/>
+				<xs:element maxOccurs="1" minOccurs="0" name="erros">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="erro">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="0" name="campo" type="xs:string"/>
+										<xs:element maxOccurs="1" minOccurs="1" name="mensagem" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="obterReciboRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="1" name="numeroContrato" type="xs:long"/>
+                <xs:element maxOccurs="1" minOccurs="1" name="numeroRecibo" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="obterReciboResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="1" minOccurs="1" name="codigo" type="xs:short"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="mensagem" type="xs:string"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="recibo" type="xs:base64Binary"/>
+				<xs:element maxOccurs="1" minOccurs="0" name="erros">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="1" name="erro">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="1" minOccurs="1" name="mensagem" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="registarDadosContratoResponse">
+    <wsdl:part element="sch:registarDadosContratoResponse" name="registarDadosContratoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obterReciboRequest">
+    <wsdl:part element="sch:obterReciboRequest" name="obterReciboRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="emitirReciboRequest">
+    <wsdl:part element="sch:emitirReciboRequest" name="emitirReciboRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obterReciboResponse">
+    <wsdl:part element="sch:obterReciboResponse" name="obterReciboResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registarDadosContratoRequest">
+    <wsdl:part element="sch:registarDadosContratoRequest" name="registarDadosContratoRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="emitirReciboResponse">
+    <wsdl:part element="sch:emitirReciboResponse" name="emitirReciboResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Arrendamento">
+    <wsdl:operation name="registarDadosContrato">
+      <wsdl:input message="tns:registarDadosContratoRequest" name="registarDadosContratoRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:registarDadosContratoResponse" name="registarDadosContratoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterRecibo">
+      <wsdl:input message="tns:obterReciboRequest" name="obterReciboRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:obterReciboResponse" name="obterReciboResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="emitirRecibo">
+      <wsdl:input message="tns:emitirReciboRequest" name="emitirReciboRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:emitirReciboResponse" name="emitirReciboResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ArrendamentoSoap11" type="tns:Arrendamento">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="registarDadosContrato">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="registarDadosContratoRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="registarDadosContratoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterRecibo">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="obterReciboRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obterReciboResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="emitirRecibo">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="emitirReciboRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="emitirReciboResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ArrendamentoService">
+    <wsdl:port binding="tns:ArrendamentoSoap11" name="ArrendamentoSoap11">
+      <soap:address location="https://servicos.portaldasfinancas.gov.pt/sicau/ws/arrendamento/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
