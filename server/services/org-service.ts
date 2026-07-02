@@ -1,12 +1,66 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
+
+export const ACTIVE_ORG_COOKIE = "active_org_id";
+
+export interface OrgMembership {
+  organizationId: string;
+  organizationName: string;
+  role: string;
+}
 
 export interface OrgContext {
   supabase: SupabaseClient;
   user: User;
   organizationId: string;
   organizationName: string;
+  /** Todas as organizações a que o utilizador pertence (para o seletor de organização). */
+  organizations: OrgMembership[];
+}
+
+interface MembershipRow {
+  organization_id: string;
+  role: string;
+  organizations: { name: string } | null;
+}
+
+/**
+ * Resolve a organização ativa: usa o cookie `active_org_id` se o utilizador
+ * ainda pertencer a essa organização; caso contrário cai para a mais antiga
+ * (auto-recupera se a organização guardada no cookie deixou de ser válida,
+ * por exemplo se o utilizador foi removido dela).
+ */
+async function resolveMemberships(
+  supabase: SupabaseClient,
+  userId: string
+): Promise<{ memberships: OrgMembership[]; activeId: string | null }> {
+  const { data } = await supabase
+    .from("organization_members")
+    .select("organization_id, role, organizations(name)")
+    .eq("user_id", userId)
+    .eq("is_active", true)
+    .order("created_at", { ascending: true });
+
+  const memberships: OrgMembership[] = ((data ?? []) as unknown as MembershipRow[]).map((m) => ({
+    organizationId: m.organization_id,
+    organizationName: m.organizations?.name ?? "",
+    role: m.role,
+  }));
+
+  if (memberships.length === 0) {
+    return { memberships, activeId: null };
+  }
+
+  const cookieStore = await cookies();
+  const cookieOrgId = cookieStore.get(ACTIVE_ORG_COOKIE)?.value;
+  const validCookie = cookieOrgId && memberships.some((m) => m.organizationId === cookieOrgId);
+
+  return {
+    memberships,
+    activeId: validCookie ? cookieOrgId! : memberships[0].organizationId,
+  };
 }
 
 /**
@@ -25,25 +79,20 @@ export async function getOrgContext(): Promise<OrgContext> {
     redirect("/login");
   }
 
-  const { data: membership } = await supabase
-    .from("organization_members")
-    .select("organization_id, organizations(name)")
-    .eq("user_id", user.id)
-    .eq("is_active", true)
-    .limit(1)
-    .maybeSingle();
+  const { memberships, activeId } = await resolveMemberships(supabase, user.id);
 
-  if (!membership) {
+  if (!activeId) {
     redirect("/onboarding");
   }
 
-  const org = membership.organizations as unknown as { name: string } | null;
+  const active = memberships.find((m) => m.organizationId === activeId)!;
 
   return {
     supabase,
     user,
-    organizationId: membership.organization_id,
-    organizationName: org?.name ?? "",
+    organizationId: active.organizationId,
+    organizationName: active.organizationName,
+    organizations: memberships,
   };
 }
 
@@ -92,22 +141,17 @@ export async function getOrgContextOrNull(): Promise<OrgContext | null> {
 
   if (!user) return null;
 
-  const { data: membership } = await supabase
-    .from("organization_members")
-    .select("organization_id, organizations(name)")
-    .eq("user_id", user.id)
-    .eq("is_active", true)
-    .limit(1)
-    .maybeSingle();
+  const { memberships, activeId } = await resolveMemberships(supabase, user.id);
 
-  if (!membership) return null;
+  if (!activeId) return null;
 
-  const org = membership.organizations as unknown as { name: string } | null;
+  const active = memberships.find((m) => m.organizationId === activeId)!;
 
   return {
     supabase,
     user,
-    organizationId: membership.organization_id,
-    organizationName: org?.name ?? "",
+    organizationId: active.organizationId,
+    organizationName: active.organizationName,
+    organizations: memberships,
   };
 }

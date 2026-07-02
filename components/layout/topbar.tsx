@@ -1,24 +1,34 @@
 import Link from "next/link";
-import { LogOut, Building2, Bell } from "lucide-react";
+import { LogOut, Bell, Settings } from "lucide-react";
 import { signOut } from "@/server/actions/auth";
 import { Button } from "@/components/ui/button";
+import { OrgSwitcher } from "@/components/layout/org-switcher";
+import type { OrgMembership } from "@/server/services/org-service";
 
 export function Topbar({
-  organizationName,
+  organizations,
+  currentOrganizationId,
   userEmail,
   unreadCount,
 }: {
-  organizationName: string | null;
+  organizations: OrgMembership[];
+  currentOrganizationId: string;
   userEmail: string | null;
   unreadCount: number;
 }) {
   return (
     <header className="flex h-14 items-center justify-between border-b border-border bg-card px-5">
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Building2 className="h-4 w-4" />
-        <span className="font-medium text-foreground">
-          {organizationName ?? "Sem organização"}
-        </span>
+      <div className="flex items-center gap-2">
+        <OrgSwitcher organizations={organizations} currentOrganizationId={currentOrganizationId} />
+        <Link
+          href="/settings/organizations"
+          title="Gerir organizações"
+          className="text-muted-foreground hover:text-foreground"
+        >
+          <Button variant="ghost" size="sm" type="button">
+            <Settings className="h-3.5 w-3.5" />
+          </Button>
+        </Link>
       </div>
       <div className="flex items-center gap-3">
         <Link href="/notifications" className="relative" title="Notificações">

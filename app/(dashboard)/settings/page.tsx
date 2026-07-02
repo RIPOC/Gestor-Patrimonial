@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap, Landmark } from "lucide-react";
+import { Zap, Landmark, Building2 } from "lucide-react";
 import { getOrgContext } from "@/server/services/org-service";
 import { runAutomationsNow } from "@/server/actions/automations";
 import { PageHeader } from "@/components/layout/page-header";
@@ -14,7 +14,7 @@ export default async function SettingsPage({
   searchParams: Promise<{ automation?: string }>;
 }) {
   const { automation } = await searchParams;
-  const { supabase, organizationId, user } = await getOrgContext();
+  const { supabase, organizationId, user, organizations } = await getOrgContext();
 
   const { data: org } = await supabase
     .from("organizations")
@@ -48,6 +48,12 @@ export default async function SettingsPage({
               <dt className="text-muted-foreground">País</dt>
               <dd>{org?.country ?? "Portugal"}</dd>
             </dl>
+            <Link href="/settings/organizations" className="mt-4 inline-block">
+              <Button variant="outline" size="sm">
+                <Building2 className="h-4 w-4" />
+                {organizations.length > 1 ? `Trocar organização (${organizations.length})` : "Gerir organizações"}
+              </Button>
+            </Link>
           </CardContent>
         </Card>
         <Card>
