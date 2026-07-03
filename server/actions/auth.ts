@@ -4,9 +4,18 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
+// Apenas caminhos internos relativos (evita open redirect)
+const RELATIVE_PATH_RE = /^\/[A-Za-z0-9\-_/]*$/;
+
+function safeNext(next: FormDataEntryValue | null): string | null {
+  const value = String(next ?? "");
+  return value && RELATIVE_PATH_RE.test(value) ? value : null;
+}
+
 export async function signIn(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const next = safeNext(formData.get("next"));
 
   if (!email || !password) {
     redirect("/login?error=" + encodeURIComponent("Email e password obrigatórios"));
@@ -20,13 +29,14 @@ export async function signIn(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  redirect(next ?? "/dashboard");
 }
 
 export async function signUp(formData: FormData) {
   const fullName = String(formData.get("full_name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const next = safeNext(formData.get("next"));
 
   if (!email || password.length < 8) {
     redirect(
@@ -47,7 +57,7 @@ export async function signUp(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/onboarding");
+  redirect(next ?? "/onboarding");
 }
 
 export async function signOut() {

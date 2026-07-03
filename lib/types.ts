@@ -2,6 +2,14 @@
 
 export type MemberRole = "org_admin" | "owner" | "manager" | "accountant" | "tenant";
 
+export const MEMBER_ROLE_LABELS: Record<MemberRole, string> = {
+  org_admin: "Administrador",
+  owner: "Proprietário",
+  manager: "Gestor",
+  accountant: "Contabilista",
+  tenant: "Inquilino",
+};
+
 export type OwnerType =
   | "pessoa_singular"
   | "empresa"
@@ -112,6 +120,7 @@ export type DocumentType =
   | "orcamento"
   | "auto_entrega_chaves"
   | "inventario"
+  | "caderneta_predial"
   | "outro";
 
 export interface Organization {
@@ -466,5 +475,6 @@ export const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
   orcamento: "Orçamento",
   auto_entrega_chaves: "Auto de entrega de chaves",
   inventario: "Inventário",
+  caderneta_predial: "Caderneta predial",
   outro: "Outro",
 };

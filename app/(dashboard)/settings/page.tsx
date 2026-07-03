@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap, Landmark, Building2 } from "lucide-react";
+import { Zap, Landmark, Building2, Users } from "lucide-react";
 import { getOrgContext } from "@/server/services/org-service";
 import { runAutomationsNow } from "@/server/actions/automations";
 import { PageHeader } from "@/components/layout/page-header";
@@ -73,6 +73,11 @@ export default async function SettingsPage({
             <p className="mt-4 text-xs text-muted-foreground">
               Sessão atual: {user.email}
             </p>
+            <Link href="/settings/members" className="mt-4 inline-block">
+              <Button variant="outline" size="sm">
+                <Users className="h-4 w-4" /> Gerir membros e convites
+              </Button>
+            </Link>
           </CardContent>
         </Card>
         <Card className="lg:col-span-2">

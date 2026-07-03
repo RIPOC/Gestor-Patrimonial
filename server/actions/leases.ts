@@ -146,3 +146,48 @@ export async function terminateLease(id: string) {
   revalidatePath(`/leases/${id}`);
   redirect(`/leases/${id}`);
 }
+
+export async function deleteLease(id: string) {
+  const { supabase, organizationId } = await getOrgContext();
+
+  const { data: lease } = await supabase
+    .from("leases")
+    .select("property_id")
+    .eq("id", id)
+    .eq("organization_id", organizationId)
+    .single();
+
+  const { error } = await supabase
+    .from("leases")
+    .delete()
+    .eq("id", id)
+    .eq("organization_id", organizationId);
+
+  if (error) {
+    const message =
+      error.code === "23503"
+        ? "Não é possível eliminar: existem recibos ou ocorrências associados a este contrato. Elimine ou desassocie esses registos primeiro."
+        : error.message;
+    redirect(`/leases/${id}?error=` + encodeURIComponent(message));
+  }
+
+  // Se não houver outro contrato ativo, o imóvel fica devoluto
+  if (lease) {
+    const { count } = await supabase
+      .from("leases")
+      .select("id", { count: "exact", head: true })
+      .eq("property_id", lease.property_id)
+      .eq("status", "ativo");
+
+    if (!count) {
+      await supabase
+        .from("properties")
+        .update({ status: "devoluto" })
+        .eq("id", lease.property_id)
+        .eq("organization_id", organizationId);
+    }
+  }
+
+  revalidatePath("/leases");
+  redirect("/leases");
+}

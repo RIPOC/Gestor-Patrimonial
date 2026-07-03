@@ -3,9 +3,11 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { randomBytes } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { organizationSchema } from "@/lib/validators";
-import { ACTIVE_ORG_COOKIE } from "@/server/services/org-service";
+import { ACTIVE_ORG_COOKIE, getOrgContext } from "@/server/services/org-service";
+import type { MemberRole } from "@/lib/types";
 
 const ORG_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 ano
 
@@ -129,6 +131,66 @@ export async function switchOrganization(formData: FormData) {
 
   if (!membership) {
     redirect("/dashboard?error=" + encodeURIComponent("Não pertence a essa organização"));
+  }
+
+  await setActiveOrgCookie(organizationId);
+
+  revalidatePath("/", "layout");
+  redirect("/dashboard");
+}
+
+/** Gera um convite para a organização ativa (só org_admin). Sem envio de email — o link é partilhado manualmente. */
+export async function createInvite(formData: FormData) {
+  const { supabase, organizationId, user } = await getOrgContext();
+
+  const role = String(formData.get("role") ?? "manager") as MemberRole;
+  const email = String(formData.get("email") ?? "").trim() || null;
+
+  const token = randomBytes(24).toString("base64url");
+
+  const { error } = await supabase.from("organization_invites").insert({
+    organization_id: organizationId,
+    role,
+    email,
+    token,
+    invited_by: user.id,
+  });
+
+  if (error) {
+    redirect("/settings/members?error=" + encodeURIComponent(error.message));
+  }
+
+  revalidatePath("/settings/members");
+  redirect("/settings/members");
+}
+
+export async function deleteInvite(id: string) {
+  const { supabase, organizationId } = await getOrgContext();
+
+  await supabase
+    .from("organization_invites")
+    .delete()
+    .eq("id", id)
+    .eq("organization_id", organizationId);
+
+  revalidatePath("/settings/members");
+}
+
+/** Aceita um convite já validado (chamado a partir de /invite/[token] por um utilizador autenticado). */
+export async function acceptInvite(token: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect(`/login?next=${encodeURIComponent(`/invite/${token}`)}`);
+
+  const { data: organizationId, error } = await supabase.rpc("accept_organization_invite", {
+    p_token: token,
+  });
+
+  if (error || !organizationId) {
+    redirect(`/invite/${token}?error=` + encodeURIComponent(error?.message ?? "Convite inválido"));
   }
 
   await setActiveOrgCookie(organizationId);

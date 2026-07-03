@@ -47,8 +47,11 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   const isPublic = PUBLIC_PATHS.some((p) => path.startsWith(p));
+  // /invite/[token] tem de funcionar quer o visitante esteja autenticado ou não
+  // (a própria página decide o que mostrar), por isso fica fora das duas regras abaixo.
+  const isInvite = path.startsWith("/invite");
 
-  if (!user && !isPublic) {
+  if (!user && !isPublic && !isInvite) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

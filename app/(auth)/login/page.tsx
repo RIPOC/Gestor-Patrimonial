@@ -12,9 +12,9 @@ export const metadata = { title: "Entrar" };
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; next?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, next } = await searchParams;
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">
@@ -30,6 +30,7 @@ export default async function LoginPage({
         <CardContent>
           <ErrorBanner message={error} />
           <form action={signIn} className="space-y-4">
+            {next && <input type="hidden" name="next" value={next} />}
             <div className="space-y-1.5">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" required autoComplete="email" />
@@ -50,7 +51,10 @@ export default async function LoginPage({
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
             Ainda não tem conta?{" "}
-            <Link href="/signup" className="font-medium text-primary hover:underline">
+            <Link
+              href={next ? `/signup?next=${encodeURIComponent(next)}` : "/signup"}
+              className="font-medium text-primary hover:underline"
+            >
               Criar conta
             </Link>
           </p>

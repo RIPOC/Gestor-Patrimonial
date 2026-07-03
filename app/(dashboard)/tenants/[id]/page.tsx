@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrgContext } from "@/server/services/org-service";
+import { deleteTenant, toggleTenantActive } from "@/server/actions/tenants";
 import { PageHeader } from "@/components/layout/page-header";
+import { ErrorBanner } from "@/components/error-banner";
+import { DeleteButton } from "@/components/delete-button";
 import { RentStatusBadge, LeaseStatusBadge } from "@/components/status-badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,10 +24,13 @@ export const metadata = { title: "Inquilino" };
 
 export default async function TenantDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string }>;
 }) {
   const { id } = await params;
+  const { error } = await searchParams;
   const { supabase, organizationId } = await getOrgContext();
 
   const { data: tenant } = await supabase
@@ -76,7 +82,17 @@ export default async function TenantDetailPage({
         <Link href={`/tenants/${id}/edit`}>
           <Button variant="outline">Editar</Button>
         </Link>
+        <form action={toggleTenantActive.bind(null, id, !tenant.is_active)}>
+          <Button type="submit" variant="outline">
+            {tenant.is_active ? "Desativar" : "Ativar"}
+          </Button>
+        </form>
+        <DeleteButton
+          action={deleteTenant.bind(null, id)}
+          confirmMessage={`Eliminar o inquilino "${tenant.name}"? Esta ação não pode ser desfeita.`}
+        />
       </PageHeader>
+      <ErrorBanner message={error} />
 
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <Card>

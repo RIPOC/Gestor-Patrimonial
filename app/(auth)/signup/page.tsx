@@ -12,9 +12,9 @@ export const metadata = { title: "Criar conta" };
 export default async function SignupPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; next?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, next } = await searchParams;
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">
@@ -32,6 +32,7 @@ export default async function SignupPage({
         <CardContent>
           <ErrorBanner message={error} />
           <form action={signUp} className="space-y-4">
+            {next && <input type="hidden" name="next" value={next} />}
             <div className="space-y-1.5">
               <Label htmlFor="full_name">Nome completo</Label>
               <Input id="full_name" name="full_name" required />
@@ -57,7 +58,10 @@ export default async function SignupPage({
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
             Já tem conta?{" "}
-            <Link href="/login" className="font-medium text-primary hover:underline">
+            <Link
+              href={next ? `/login?next=${encodeURIComponent(next)}` : "/login"}
+              className="font-medium text-primary hover:underline"
+            >
               Entrar
             </Link>
           </p>

@@ -2,11 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // pdfkit lê os ficheiros de métricas de fonte (.afm) do disco em runtime;
-  // mantê-lo fora do bundle webpack evita que esses ficheiros fiquem em falta.
-  serverExternalPackages: ["pdfkit"],
+  // pdf-parse (via pdfjs-dist) parte quando o webpack o rebundle na camada
+  // "action-browser" das server actions — ambos ficam fora do bundle.
+  serverExternalPackages: ["pdfkit", "pdf-parse"],
   experimental: {
     serverActions: {
-      bodySizeLimit: "10mb",
+      bodySizeLimit: "25mb",
     },
   },
 };

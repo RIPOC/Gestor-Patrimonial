@@ -7,16 +7,9 @@ import { ErrorBanner } from "@/components/error-banner";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { MEMBER_ROLE_LABELS } from "@/lib/types";
 
 export const metadata = { title: "Organizações" };
-
-const ROLE_LABELS: Record<string, string> = {
-  org_admin: "Administrador",
-  owner: "Proprietário",
-  manager: "Gestor",
-  accountant: "Contabilista",
-  tenant: "Inquilino",
-};
 
 export default async function OrganizationsPage({
   searchParams,
@@ -51,7 +44,7 @@ export default async function OrganizationsPage({
                   <CardTitle className="text-base">{org.organizationName}</CardTitle>
                   {isActive && <Badge tone="green"><Check className="mr-1 h-3 w-3" />Ativa</Badge>}
                 </div>
-                <CardDescription>{ROLE_LABELS[org.role] ?? org.role}</CardDescription>
+                <CardDescription>{MEMBER_ROLE_LABELS[org.role as keyof typeof MEMBER_ROLE_LABELS] ?? org.role}</CardDescription>
               </CardHeader>
               <CardContent>
                 {!isActive && (

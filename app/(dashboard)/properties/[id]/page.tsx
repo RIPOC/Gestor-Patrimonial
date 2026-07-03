@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrgContext } from "@/server/services/org-service";
-import { createUnit } from "@/server/actions/properties";
+import { createUnit, deleteProperty } from "@/server/actions/properties";
 import { getPropertyFiscalState } from "@/server/services/report-service";
 import { PageHeader } from "@/components/layout/page-header";
 import { ErrorBanner } from "@/components/error-banner";
+import { DeleteButton } from "@/components/delete-button";
 import { PropertyStatusBadge, LeaseStatusBadge, RentStatusBadge } from "@/components/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -118,6 +119,10 @@ export default async function PropertyDetailPage({
         <Link href={`/properties/${id}/edit`}>
           <Button variant="outline">Editar</Button>
         </Link>
+        <DeleteButton
+          action={deleteProperty.bind(null, id)}
+          confirmMessage={`Eliminar o imóvel "${property.name}"? Esta ação não pode ser desfeita.`}
+        />
       </PageHeader>
       <ErrorBanner message={error} />
 

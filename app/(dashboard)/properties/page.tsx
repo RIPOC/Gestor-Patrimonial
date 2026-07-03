@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { Building2 } from "lucide-react";
+import { Building2, FileUp } from "lucide-react";
 import { getOrgContext } from "@/server/services/org-service";
 import { PageHeader } from "@/components/layout/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorBanner } from "@/components/error-banner";
 import { PropertyStatusBadge } from "@/components/status-badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -41,7 +42,13 @@ export default async function PropertiesPage({
         description="Carteira de imóveis e frações."
         actionLabel="Novo imóvel"
         actionHref="/properties/new"
-      />
+      >
+        <Link href="/properties/import-caderneta">
+          <Button variant="outline">
+            <FileUp className="h-4 w-4" /> Importar caderneta predial
+          </Button>
+        </Link>
+      </PageHeader>
       <ErrorBanner message={error} />
 
       {list.length === 0 ? (

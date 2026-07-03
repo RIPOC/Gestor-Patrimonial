@@ -104,6 +104,27 @@ export async function updateProperty(id: string, formData: FormData) {
   redirect(`/properties/${id}`);
 }
 
+export async function deleteProperty(id: string) {
+  const { supabase, organizationId } = await getOrgContext();
+
+  const { error } = await supabase
+    .from("properties")
+    .delete()
+    .eq("id", id)
+    .eq("organization_id", organizationId);
+
+  if (error) {
+    const message =
+      error.code === "23503"
+        ? "Não é possível eliminar: existem contratos, rendas, despesas ou ocorrências associadas a este imóvel. Elimine ou desassocie esses registos primeiro."
+        : error.message;
+    redirect(`/properties/${id}?error=` + encodeURIComponent(message));
+  }
+
+  revalidatePath("/properties");
+  redirect("/properties");
+}
+
 export async function createUnit(propertyId: string, formData: FormData) {
   const { supabase, user, organizationId } = await getOrgContext();
 

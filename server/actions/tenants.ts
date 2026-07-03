@@ -74,3 +74,37 @@ export async function updateTenant(id: string, formData: FormData) {
   revalidatePath("/tenants");
   redirect("/tenants");
 }
+
+export async function toggleTenantActive(id: string, isActive: boolean) {
+  const { supabase, organizationId } = await getOrgContext();
+
+  await supabase
+    .from("tenants")
+    .update({ is_active: isActive })
+    .eq("id", id)
+    .eq("organization_id", organizationId);
+
+  revalidatePath("/tenants");
+  revalidatePath(`/tenants/${id}`);
+}
+
+export async function deleteTenant(id: string) {
+  const { supabase, organizationId } = await getOrgContext();
+
+  const { error } = await supabase
+    .from("tenants")
+    .delete()
+    .eq("id", id)
+    .eq("organization_id", organizationId);
+
+  if (error) {
+    const message =
+      error.code === "23503"
+        ? "Não é possível eliminar: este inquilino está associado a ocorrências ou outros registos. Desative-o em vez de eliminar, ou remova essas associações primeiro."
+        : error.message;
+    redirect(`/tenants/${id}?error=` + encodeURIComponent(message));
+  }
+
+  revalidatePath("/tenants");
+  redirect("/tenants");
+}

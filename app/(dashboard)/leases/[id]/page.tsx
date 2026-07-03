@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrgContext } from "@/server/services/org-service";
-import { terminateLease } from "@/server/actions/leases";
+import { terminateLease, deleteLease } from "@/server/actions/leases";
 import { submitContractToAT } from "@/server/actions/at-integration";
 import { PageHeader } from "@/components/layout/page-header";
 import { ErrorBanner } from "@/components/error-banner";
+import { DeleteButton } from "@/components/delete-button";
 import { LeaseStatusBadge, RentStatusBadge } from "@/components/status-badge";
 import { ATCredentialsModal } from "@/components/at-credentials-modal";
 import { Button } from "@/components/ui/button";
@@ -72,6 +73,10 @@ export default async function LeaseDetailPage({
             </Button>
           </form>
         )}
+        <DeleteButton
+          action={deleteLease.bind(null, id)}
+          confirmMessage="Eliminar este contrato e todas as rendas associadas? Esta ação não pode ser desfeita."
+        />
       </PageHeader>
       <ErrorBanner message={error ?? at_error} />
       {at_success && (

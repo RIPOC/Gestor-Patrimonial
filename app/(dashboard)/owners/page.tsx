@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { Users } from "lucide-react";
 import { getOrgContext } from "@/server/services/org-service";
+import { deleteOwner, toggleOwnerActive } from "@/server/actions/owners";
 import { PageHeader } from "@/components/layout/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorBanner } from "@/components/error-banner";
+import { DeleteButton } from "@/components/delete-button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -61,6 +64,7 @@ export default async function OwnersPage({
               <TableHead>Email</TableHead>
               <TableHead>Telefone</TableHead>
               <TableHead>Estado</TableHead>
+              <TableHead>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -82,6 +86,20 @@ export default async function OwnersPage({
                   <Badge tone={owner.is_active ? "green" : "gray"}>
                     {owner.is_active ? "Ativo" : "Inativo"}
                   </Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <form action={toggleOwnerActive.bind(null, owner.id, !owner.is_active)}>
+                      <Button type="submit" variant="outline" size="sm">
+                        {owner.is_active ? "Desativar" : "Ativar"}
+                      </Button>
+                    </form>
+                    <DeleteButton
+                      action={deleteOwner.bind(null, owner.id)}
+                      confirmMessage={`Eliminar o proprietário "${owner.name}"? Esta ação não pode ser desfeita.`}
+                      size="sm"
+                    />
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

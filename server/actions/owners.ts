@@ -83,3 +83,24 @@ export async function toggleOwnerActive(id: string, isActive: boolean) {
 
   revalidatePath("/owners");
 }
+
+export async function deleteOwner(id: string) {
+  const { supabase, organizationId } = await getOrgContext();
+
+  const { error } = await supabase
+    .from("owners")
+    .delete()
+    .eq("id", id)
+    .eq("organization_id", organizationId);
+
+  if (error) {
+    const message =
+      error.code === "23503"
+        ? "Não é possível eliminar: este proprietário está associado a contratos ou recibos. Desative-o em vez de eliminar, ou remova essas associações primeiro."
+        : error.message;
+    redirect("/owners?error=" + encodeURIComponent(message));
+  }
+
+  revalidatePath("/owners");
+  redirect("/owners");
+}
